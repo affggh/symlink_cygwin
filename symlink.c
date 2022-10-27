@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     FILE *fp;
     int i;
     i = 0;
-    char ch[128];
+    char ch[4096];
     strcpy(ch, argv[1]);
     fp = fopen(argv[2], "w+");
     fprintf(fp, "!<symlink>\xff\xfe");
@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
 	{
 		fputc(0, fp); // fill two /x00
 	}
+        fclose(fp);
 	#ifdef USINGWIN32API // 要不然太慢了
 	SetFileAttributesA(argv[2], FILE_ATTRIBUTE_SYSTEM); // need include Windows.h
 	#else
@@ -55,6 +56,5 @@ int main(int argc, char *argv[])
 	strcat(cmd, argv[2]);
 	system(cmd);
 	#endif
-    fclose(fp);
 	return 0;
 }
